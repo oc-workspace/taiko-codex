@@ -12,7 +12,14 @@
 
 ## 发布和运行
 
-- 通过 `ssh rococo-root` 登录生产桥接机。在 `/opt/docker/for-oc-dev2prod` 执行 `source ~/.profile` 和 `oc-prod-clone taiko-codex`。
+- 通过 `ssh rococo-root` 登录生产桥接机。在 `/opt/docker/for-oc-dev2prod` 执行 `source ~/.profile`，首次克隆时指定该主机的 SSH 别名。
+
+  ```bash
+  DEV_URL=git@github-oc-workspace-write:oc-workspace/taiko-codex.git \
+  PROD_URL=git@github-owinnieo-taiko-codex:oWinnieo/taiko-codex.git \
+  oc-prod-clone taiko-codex
+  ```
+
 - 在桥接工作树执行 `git status --short --branch` 和 `git remote -v`，核对工作树、提交及远端。`origin` 指向 `oc-workspace/taiko-codex`，`prod` 指向 `oWinnieo/taiko-codex`。
 - 首次缺少 prod 仓库时执行 `oc-prod-create-repo`。仅在 prod 没有 `main` 时执行 `oc-prod-init`。
 - 后续使用 `oc-prod-release "Release YYYY-MM-DD"` 生成发布分支，审查差异并通过 PR 合并到 prod 的 `main`，然后部署合并结果。
